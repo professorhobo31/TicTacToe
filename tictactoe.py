@@ -30,7 +30,7 @@ def coin_flip():
         
 
 def display_board(board):
-    # La función acepta un parámetro del cual obtiene el estado actual del tablero
+    # La función acepta una lista de la cual obtiene el estado actual del tablero
     # y lo muestra en la consola.
     for row in board:
         print("+-----+-----+-----+")
@@ -43,11 +43,21 @@ def display_board(board):
     print("+-----+-----+-----+")
         
 def enter_move(board):
-    # La función acepta el estado actual del tablero y pregunta al usuario acerca de su movimiento,  
-    # verifica la entrada y actualiza el tablero acorde a la decisión del usuario.
-    mov_jugador = int(input("Ingresa tu movimiento: "))
+    # La función toma el estado actual del tablero y pregunta al usuario acerca de su movimiento,  
+    # verifica si el movimiento es posible y actualiza el tablero acorde a la decisión del usuario.
+    # Printea diversos mensajes si el input no se condice con un movimiento posible. 
+    while True:
+        try:
+            mov_jugador = int(input('Elija un casillero: '))
+            break
+        except ValueError:
+            print('Ingrese un casillero del 1 al 9 que esté vacío. Sin letras u otros caracteres')
+            continue
+    #este tipo de código chequea que el tipo del input sea correcto y vuelve a pedir inputs hasta obtener
+    #uno que sea válido
+
     if mov_jugador <= 9 and mov_jugador > 0:
-    #este if chequea que el input sea adecuado
+    #este if chequea que el entero inputeado esté en el rango adecuado
         
         row = (mov_jugador - 1) // 3
         if mov_jugador <= 3:
@@ -60,7 +70,7 @@ def enter_move(board):
         #esta sección de código tradujo el input a coordenadas
 
         if coord not in free_fields:
-            print("Este movimiento no es válido.")
+            print("Ese casillero está ocupado.")
             enter_move(board)
         else:
             global current_board
@@ -72,7 +82,7 @@ def enter_move(board):
             draw_move(current_board)
             
     else:
-        print("Este movimiento no es válido.")
+        print("Elija un casillero del 1 al 9.")
         enter_move(board)
 
 
