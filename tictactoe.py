@@ -2,9 +2,10 @@ import sys
 import time
 from random import randrange
 import random
+
 def coin_flip():
-    #esta función deberá reemplazar el ingreso a nuestro programa, deberá "tirar una moneda al aire"
-    #y dependiendo de quién gane llevar a realizar el primer movimiento
+    #esta función reemplaza el ingreso a nuestro programa, "tira una moneda al aire"
+    #y dependiendo de quién gane realiza el primer movimiento
     player_choice = input("Elija CARA o CECA: ")
     player_choice = player_choice.lower()
     if player_choice == "cara" or player_choice == "ceca":
@@ -24,6 +25,7 @@ def coin_flip():
             time.sleep(1)
             draw_move(current_board)
     else:
+        print("Escriba nuevamente su elección")
         coin_flip()
         
 
