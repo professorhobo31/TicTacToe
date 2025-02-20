@@ -165,6 +165,47 @@ coin_flip()
 #Investigar y adaptar la implementación de un algoritmo minimax para que la PC posea una IA apropiada y nunca pierda. Se podría introducir antes del coin flip un selector de dificultad,
 #con tres opciones: Difícil (la IA minimax que nunca pierde), Normal (la IA minimax adaptada para perder a veces) y Facil (el movimiento random usado actualmente)
 
+def victory_check(board, sign):
+    # La función analiza el estatus del tablero para verificar solamente si se ha ganado el juego.
+    # A diferencia de la anterior función, devuelve True or False y True solamente ante una victoria
+    coords = []
+    elems = []
+    for row in range(len(board)):
+        for column in range(3):
+            coords.append((row, column))
+    for row in board:
+        for elem in row:
+            elems.append(elem)
+    #print(elems)
+    #esta seccion obtiene los datos del tablero
+
+    current_state = {}
+    for i in range(9):
+        current_state[coords[i]] = elems[i]
+    #print(current_state)
+    #esta sección crea un diccionario con la data obtenida
+
+    row1 = [elems[0], elems[1], elems[2]]
+    row2 = [elems[3], elems[4], elems[5]]
+    row3 = [elems[6], elems[7], elems[8]]
+    col1 = [elems[0], elems[3], elems[6]]
+    col2 = [elems[1], elems[4], elems[7]]
+    col3 = [elems[2], elems[5], elems[8]]
+    diag1 = [elems[0], elems[4], elems[8]]
+    diag2 = [elems[2], elems[4], elems[6]]
+    if (row1 == [sign, sign, sign] or row2 == [sign, sign, sign] or row3 == [sign, sign, sign] or col1 == [sign, sign, sign] or col2 ==[sign, sign, sign] or col3 ==[sign, sign, sign] or
+         diag1 == [sign, sign, sign] or diag2 == [sign, sign, sign]):
+        print("Se detecta la victoria")
+        return True
+    elif all(type(x) == type(elems[0]) for x in elems):
+        print("Empate!")
+        return False
+    else:
+        print("No se detecta victoria")
+        return False 
+
+
+
 def draw_move_minmax(board):
     # La función dibuja el movimiento de la máquina y actualiza el tablero, usando un algoritmo para elegir un espacio.
     internal_board = board
