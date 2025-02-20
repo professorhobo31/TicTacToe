@@ -137,7 +137,7 @@ def victory_for(board, sign):
 
 
 def draw_move(board):
-    # La función dibuja el movimiento de la máquina y actualiza el tablero.
+    # La función dibuja el movimiento de la máquina y actualiza el tablero, eligiendo al azar un espacio.
     row = randrange(3)
     column = randrange(3)
     coord_maquina = (row, column)
@@ -164,3 +164,18 @@ coin_flip()
 
 #Investigar y adaptar la implementación de un algoritmo minimax para que la PC posea una IA apropiada y nunca pierda. Se podría introducir antes del coin flip un selector de dificultad,
 #con tres opciones: Difícil (la IA minimax que nunca pierde), Normal (la IA minimax adaptada para perder a veces) y Facil (el movimiento random usado actualmente)
+
+def draw_move_minmax(board):
+    # La función dibuja el movimiento de la máquina y actualiza el tablero, usando un algoritmo para elegir un espacio.
+    internal_board = board
+    for free_space in free_fields:
+        vc = 0 #"victory constant" reservo memoria para la variable que determina si se llego a victoria o derrota/reseteo la misma
+        mc = 0 #"move counter" reservo memoria para la variable que cuenta los pasos/reseteo la misma
+
+        print(free_space[0], "-", free_space[1], "//", vc, "--", mc)
+
+        internal_board[free_space[0]][free_space[1]] = "X"
+        if victory_for(internal_board, "X") is true:
+            vc = 1
+
+#draw_move_minmax(current_board)
