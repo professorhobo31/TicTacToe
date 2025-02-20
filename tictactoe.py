@@ -1,7 +1,34 @@
 import sys
 import time
+from random import randrange
+import random
+def coin_flip():
+    #esta función deberá reemplazar el ingreso a nuestro programa, deberá "tirar una moneda al aire"
+    #y dependiendo de quién gane llevar a realizar el primer movimiento
+    player_choice = input("Elija CARA o CECA: ")
+    player_choice = player_choice.lower()
+    if player_choice == "cara" or player_choice == "ceca":
+        flip = random.random()
+        if flip <= 0.5:
+            flip = "cara"
+        else:
+            flip = "ceca"
+        print("La moneda cayó en ", flip)
+        
+        if player_choice == flip:
+            print('El Jugador arrancará la partida')
+            time.sleep(1)
+            enter_move(current_board)            
+        else:
+            print('La PC arrancará la partida')
+            time.sleep(1)
+            draw_move(current_board)
+    else:
+        coin_flip()
+        
+
 def display_board(board):
-    # La función acepta un parámetro el cual contiene el estado actual del tablero
+    # La función acepta un parámetro del cual obtiene el estado actual del tablero
     # y lo muestra en la consola.
     for row in board:
         print("+-----+-----+-----+")
@@ -39,6 +66,7 @@ def enter_move(board):
             display_board(current_board)
             victory_for(current_board, "O")
             make_list_of_free_fields(current_board)
+            time.sleep(2)
             draw_move(current_board)
             
     else:
@@ -98,7 +126,6 @@ def victory_for(board, sign):
 
 def draw_move(board):
     # La función dibuja el movimiento de la máquina y actualiza el tablero.
-    from random import randrange
     row = randrange(3)
     column = randrange(3)
     coord_maquina = (row, column)
@@ -111,12 +138,17 @@ def draw_move(board):
             display_board(current_board)
             victory_for(current_board, "X")
             make_list_of_free_fields(current_board)
+            #time.sleep(2)
             enter_move(current_board)
 
     
     
-current_board = [[1,2,3], [4,"X",6], [7,8,9]]
+current_board = [[1,2,3], [4,5,6], [7,8,9]]
 # Estado inicial, nuestra función draw debe tomarlo como input y generar el tablero
 display_board(current_board)
 free_fields = make_list_of_free_fields(current_board)
-enter_move(current_board)
+coin_flip()
+
+
+#Investigar y adaptar la implementación de un algoritmo minimax para que la PC posea una IA apropiada y nunca pierda. Se podría introducir antes del coin flip un selector de dificultad,
+#con tres opciones: Difícil (la IA minimax que nunca pierde), Normal (la IA minimax adaptada para perder a veces) y Facil (el movimiento random usado actualmente)
