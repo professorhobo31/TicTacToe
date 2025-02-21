@@ -2,6 +2,8 @@ import sys
 import time
 from random import randrange
 import random
+import copy
+
 
 def coin_flip():
     #esta función reemplaza el ingreso a nuestro programa, "tira una moneda al aire"
@@ -155,11 +157,11 @@ def draw_move(board):
 
     
     
-current_board = [[1,2,3], [4,5,6], [7,8,9]]
+current_board = [[1,"X",3], [4,"X",6], [7,8,9]]
 # Estado inicial, nuestra función draw debe tomarlo como input y generar el tablero
 display_board(current_board)
 free_fields = make_list_of_free_fields(current_board)
-coin_flip()
+#coin_flip()
 
 
 #Investigar y adaptar la implementación de un algoritmo minimax para que la PC posea una IA apropiada y nunca pierda. Se podría introducir antes del coin flip un selector de dificultad,
@@ -206,17 +208,26 @@ def victory_check(board, sign):
 
 
 
-def draw_move_minmax(board):
+def draw_move_minmax():
     # La función dibuja el movimiento de la máquina y actualiza el tablero, usando un algoritmo para elegir un espacio.
-    internal_board = board
     for free_space in free_fields:
         vc = 0 #"victory constant" reservo memoria para la variable que determina si se llego a victoria o derrota/reseteo la misma
         mc = 0 #"move counter" reservo memoria para la variable que cuenta los pasos/reseteo la misma
 
         print(free_space[0], "-", free_space[1], "//", vc, "--", mc)
 
+        internal_board = []
+        internal_board = copy.deepcopy(current_board)
         internal_board[free_space[0]][free_space[1]] = "X"
-        if victory_for(internal_board, "X") is true:
-            vc = 1
 
-#draw_move_minmax(current_board)
+        if victory_check(internal_board, "X") is True:
+            current_board[free_space[0]][free_space[1]] = "X"
+            break
+            #esta parte del codigo hace mate ni bien detecta una victoria posible en el próximo movimiento
+        else:
+            print("in construction")
+            continue
+            #resto del codigo
+
+draw_move_minmax()
+display_board(current_board)
