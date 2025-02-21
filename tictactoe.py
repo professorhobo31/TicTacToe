@@ -25,7 +25,7 @@ def coin_flip():
         else:
             print('La PC arrancará la partida')
             time.sleep(1)
-            draw_move(current_board)
+            draw_move_minmax()
     else:
         print("Escriba nuevamente su elección")
         coin_flip()
@@ -81,7 +81,7 @@ def enter_move(board):
             victory_for(current_board, "O")
             make_list_of_free_fields(current_board)
             time.sleep(2)
-            draw_move(current_board)
+            draw_move_minmax()
             
     else:
         print("Elija un casillero del 1 al 9.")
@@ -155,15 +155,6 @@ def draw_move(board):
             #time.sleep(2)
             enter_move(current_board)
 
-    
-    
-current_board = [[1,"X",3], [4,"X",6], [7,8,9]]
-# Estado inicial, nuestra función draw debe tomarlo como input y generar el tablero
-display_board(current_board)
-free_fields = make_list_of_free_fields(current_board)
-#coin_flip()
-
-
 #Investigar y adaptar la implementación de un algoritmo minimax para que la PC posea una IA apropiada y nunca pierda. Se podría introducir antes del coin flip un selector de dificultad,
 #con tres opciones: Difícil (la IA minimax que nunca pierde), Normal (la IA minimax adaptada para perder a veces) y Facil (el movimiento random usado actualmente)
 
@@ -203,18 +194,20 @@ def victory_check(board, sign):
         print("Empate!")
         return False
     else:
-        print("No se detecta victoria")
+        #print("No se detecta victoria")
         return False 
 
 
 
 def draw_move_minmax():
+    i = 0 #numero de iteraciones, reservo memoria para llevar una cuenta de los casillos vacíos iterados
     # La función dibuja el movimiento de la máquina y actualiza el tablero, usando un algoritmo para elegir un espacio.
     for free_space in free_fields:
+        i += 1
         vc = 0 #"victory constant" reservo memoria para la variable que determina si se llego a victoria o derrota/reseteo la misma
         mc = 0 #"move counter" reservo memoria para la variable que cuenta los pasos/reseteo la misma
 
-        print(free_space[0], "-", free_space[1], "//", vc, "--", mc)
+        #print(free_space[0], "-", free_space[1], "//", vc, "--", mc)
 
         internal_board = []
         internal_board = copy.deepcopy(current_board)
@@ -222,12 +215,23 @@ def draw_move_minmax():
 
         if victory_check(internal_board, "X") is True:
             current_board[free_space[0]][free_space[1]] = "X"
+            display_board(current_board)
+            victory_for(current_board, "X")
             break
             #esta parte del codigo hace mate ni bien detecta una victoria posible en el próximo movimiento
+        elif i == len(free_fields) and victory_check(internal_board, "X") is False:
+            draw_move(current_board)
+            break
         else:
             print("in construction")
             continue
             #resto del codigo
 
-draw_move_minmax()
+
+current_board = [[1,2,3], [4,5,6], [7,8,9]]
+# Estado inicial, nuestra función draw debe tomarlo como input y generar el tablero
 display_board(current_board)
+free_fields = make_list_of_free_fields(current_board)
+coin_flip()
+#draw_move_minmax()
+#display_board(current_board)
