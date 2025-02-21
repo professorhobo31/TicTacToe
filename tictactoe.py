@@ -209,17 +209,25 @@ def draw_move_minmax():
 
         #print(free_space[0], "-", free_space[1], "//", vc, "--", mc)
 
-        internal_board = []
-        internal_board = copy.deepcopy(current_board)
-        internal_board[free_space[0]][free_space[1]] = "X"
+        internal_board_ai = copy.deepcopy(current_board)
+        internal_board_ai[free_space[0]][free_space[1]] = "X"
 
-        if victory_check(internal_board, "X") is True:
+        internal_board_human = copy.deepcopy(current_board)
+        internal_board_human[free_space[0]][free_space[1]] = "O"
+
+        if victory_check(internal_board_human, "O") is True:
+            current_board[free_space[0]][free_space[1]] = "X"
+            display_board(current_board)
+            victory_for(current_board, "X")
+            enter_move(current_board)
+            break
+        elif victory_check(internal_board_ai, "X") is True:
             current_board[free_space[0]][free_space[1]] = "X"
             display_board(current_board)
             victory_for(current_board, "X")
             break
             #esta parte del codigo hace mate ni bien detecta una victoria posible en el próximo movimiento
-        elif i == len(free_fields) and victory_check(internal_board, "X") is False:
+        elif i == len(free_fields) and victory_check(internal_board_ai, "X") is False:
             draw_move(current_board)
             break
         else:
