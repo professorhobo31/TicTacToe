@@ -4,10 +4,9 @@ from random import randrange
 import random
 import copy
 
-
 def coin_flip():
-    #esta función reemplaza el ingreso a nuestro programa, "tira una moneda al aire"
-    #y dependiendo de quién gane realiza el primer movimiento
+    # Esta función ingresa al loop del juego en si, "tira una moneda al aire" y dependiendo de 
+    # quién gane realiza el primer movimiento, luego del cual el programa no se detendrá hasta que alguien gane. 
     player_choice = input("Elija CARA o CECA: ")
     player_choice = player_choice.lower()
     if player_choice == "cara" or player_choice == "ceca":
@@ -29,7 +28,6 @@ def coin_flip():
     else:
         print("Escriba nuevamente su elección")
         coin_flip()
-        
 
 def display_board(board):
     # La función acepta una lista de la cual obtiene el estado actual del tablero
@@ -39,7 +37,7 @@ def display_board(board):
         print("|     |     |     |")
         for elem in row:
             print("| ", end=" ")
-            print(elem, end="  ") #esta sección es la que interpreta los datos
+            print(elem, end="  ") # Esta sección es la que muestra los datos del tablero
         print("|")
         print( "|     |     |     |")
     print("+-----+-----+-----+")
@@ -55,11 +53,11 @@ def enter_move(board):
         except ValueError:
             print('Ingrese un casillero del 1 al 9 que esté vacío. Sin letras u otros caracteres')
             continue
-    #este tipo de código chequea que el tipo del input sea correcto y vuelve a pedir inputs hasta obtener
-    #uno que sea válido
+    # Este tipo de código chequea que el tipo del input sea correcto y vuelve a pedir inputs hasta obtener
+    # uno que sea válido
 
     if mov_jugador <= 9 and mov_jugador > 0:
-    #este if chequea que el entero inputeado esté en el rango adecuado
+    # Este if chequea que el entero inputeado esté en el rango adecuado
         
         row = (mov_jugador - 1) // 3
         if mov_jugador <= 3:
@@ -69,7 +67,7 @@ def enter_move(board):
         else:
             column = mov_jugador - 7
         coord = (row, column)
-        #esta sección de código tradujo el input a coordenadas
+        # Esta sección de código tradujo el input a coordenadas
 
         if coord not in free_fields:
             print("Ese casillero está ocupado.")
@@ -86,7 +84,6 @@ def enter_move(board):
     else:
         print("Elija un casillero del 1 al 9.")
         enter_move(board)
-
 
 def make_list_of_free_fields(board):
     # La función examina el tablero y construye una lista de todos los cuadros vacíos. 
@@ -110,14 +107,11 @@ def victory_for(board, sign):
     for row in board:
         for elem in row:
             elems.append(elem)
-    #print(elems)
-    #esta seccion obtiene los datos del tablero
+    # Esta seccion obtiene los datos del tablero actual y las ordena en listas
 
     current_state = {}
     for i in range(9):
         current_state[coords[i]] = elems[i]
-    #print(current_state)
-    #esta sección crea un diccionario con la data obtenida
 
     row1 = [elems[0], elems[1], elems[2]]
     row2 = [elems[3], elems[4], elems[5]]
@@ -137,13 +131,11 @@ def victory_for(board, sign):
         time.sleep(3)
         sys.exit()
 
-
 def draw_move(board):
     # La función dibuja el movimiento de la máquina y actualiza el tablero, eligiendo al azar un espacio.
     row = randrange(3)
     column = randrange(3)
     coord_maquina = (row, column)
-    #print(coord_maquina)
     if coord_maquina not in free_fields:
             draw_move(board)
     else:
@@ -152,11 +144,7 @@ def draw_move(board):
             display_board(current_board)
             victory_for(current_board, "X")
             make_list_of_free_fields(current_board)
-            #time.sleep(2)
             enter_move(current_board)
-
-#Investigar y adaptar la implementación de un algoritmo minimax para que la PC posea una IA apropiada y nunca pierda. Se podría introducir antes del coin flip un selector de dificultad,
-#con tres opciones: Difícil (la IA minimax que nunca pierde), Normal (la IA minimax adaptada para perder a veces) y Facil (el movimiento random usado actualmente)
 
 def victory_check(board, sign):
     # La función analiza el estatus del tablero para verificar solamente si se ha ganado el juego.
@@ -169,14 +157,10 @@ def victory_check(board, sign):
     for row in board:
         for elem in row:
             elems.append(elem)
-    #print(elems)
-    #esta seccion obtiene los datos del tablero
 
     current_state = {}
     for i in range(9):
         current_state[coords[i]] = elems[i]
-    #print(current_state)
-    #esta sección crea un diccionario con la data obtenida
 
     row1 = [elems[0], elems[1], elems[2]]
     row2 = [elems[3], elems[4], elems[5]]
@@ -188,24 +172,19 @@ def victory_check(board, sign):
     diag2 = [elems[2], elems[4], elems[6]]
     if (row1 == [sign, sign, sign] or row2 == [sign, sign, sign] or row3 == [sign, sign, sign] or col1 == [sign, sign, sign] or col2 ==[sign, sign, sign] or col3 ==[sign, sign, sign] or
          diag1 == [sign, sign, sign] or diag2 == [sign, sign, sign]):
-        print("Se detecta la victoria")
         return True
     elif all(type(x) == type(elems[0]) for x in elems):
-        print("Empate!")
         return False
     else:
-        #print("No se detecta victoria")
         return False 
 
-
-
 def draw_move_minmax():
-    i = 0 #numero de iteraciones, reservo memoria para llevar una cuenta de los casillos vacíos iterados
+    i = 0 # Numero de iteraciones, reservo memoria para llevar una cuenta de las casillas vacías iterados
     # La función dibuja el movimiento de la máquina y actualiza el tablero, usando un algoritmo para elegir un espacio.
     for free_space in free_fields:
         i += 1
-        vc = 0 #"victory constant" reservo memoria para la variable que determina si se llego a victoria o derrota/reseteo la misma
-        mc = 0 #"move counter" reservo memoria para la variable que cuenta los pasos/reseteo la misma
+        #vc = 0 # "victory constant" reservo memoria para la variable que determina si se llego a victoria o derrota/reseteo la misma
+        #mc = 0 # "move counter" reservo memoria para la variable que cuenta los pasos/reseteo la misma
 
         #print(free_space[0], "-", free_space[1], "//", vc, "--", mc)
 
@@ -226,20 +205,18 @@ def draw_move_minmax():
             display_board(current_board)
             victory_for(current_board, "X")
             break
-            #esta parte del codigo hace mate ni bien detecta una victoria posible en el próximo movimiento
+            # Esta parte del codigo hace mate ni bien detecta una victoria posible en el próximo movimiento o tapa al humano
         elif i == len(free_fields) and victory_check(internal_board_ai, "X") is False:
             draw_move(current_board)
             break
         else:
-            print("in construction")
             continue
-            #resto del codigo
-
 
 current_board = [[1,2,3], [4,5,6], [7,8,9]]
 # Estado inicial, nuestra función draw debe tomarlo como input y generar el tablero
+
 display_board(current_board)
 free_fields = make_list_of_free_fields(current_board)
+
 coin_flip()
-#draw_move_minmax()
-#display_board(current_board)
+# Llamar a esta función inicia el juego
