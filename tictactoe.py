@@ -1,8 +1,6 @@
-import sys
-import time
+import sys, time, random, copy
 from random import randrange
-import random
-import copy
+import pygame
 
 def coin_flip():
     # Esta función ingresa al loop del juego en si, "tira una moneda al aire" y dependiendo de 
@@ -211,6 +209,13 @@ def draw_move_minmax():
             break
         else:
             continue
+
+def menu():
+    print("Menu function")
+
+#//
+#//Final de la definición de funciones
+#//
 
 current_board = [[1,2,3], [4,5,6], [7,8,9]]
 # Estado inicial, nuestra función draw debe tomarlo como input y generar el tablero
