@@ -223,5 +223,5 @@ current_board = [[1,2,3], [4,5,6], [7,8,9]]
 display_board(current_board)
 free_fields = make_list_of_free_fields(current_board)
 
-coin_flip()
+#coin_flip()
 # Llamar a esta función inicia el juego
